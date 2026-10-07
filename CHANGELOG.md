@@ -30,6 +30,8 @@ New features:
 * Fix `format_volume` function panicking in debug build for FAT12 volumes with size below 1 MB
 * Add `File::attributes` and `File::set_attributes` to read and change the read-only, hidden, system and archive
   attributes of a file.
+* Add `FormatVolumeOptions::hidden_sectors` to format a volume that starts after the first sector of a disk, such as
+  a partition, for the BIOS boot code that reads it.
 * Fix index out of range panic when reading 248+ characters long file names with `alloc` feature disabled
 * Remove `byteorder` dependency.
 * Bump up minimal Rust compiler version to 1.71.0.
