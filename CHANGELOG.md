@@ -32,6 +32,8 @@ New features:
   attributes of a file.
 * Add `FormatVolumeOptions::hidden_sectors` to format a volume that starts after the first sector of a disk, such as
   a partition, for the BIOS boot code that reads it.
+* Add `FormatVolumeOptions::reserved_sectors` to format a FAT32 volume with Microsoft's 32 reserved sectors, which
+  the boot code of Windows NT needs.
 * Fix index out of range panic when reading 248+ characters long file names with `alloc` feature disabled
 * Remove `byteorder` dependency.
 * Bump up minimal Rust compiler version to 1.71.0.

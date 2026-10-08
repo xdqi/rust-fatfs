@@ -949,6 +949,7 @@ pub struct FormatVolumeOptions {
     pub(crate) heads: u16,
     pub(crate) drive_num: Option<u8>,
     pub(crate) hidden_sectors: u32,
+    pub(crate) reserved_sectors: Option<u16>,
     pub(crate) volume_id: u32,
     pub(crate) volume_label: Option<[u8; SFN_SIZE]>,
 }
@@ -967,6 +968,7 @@ impl Default for FormatVolumeOptions {
             heads: 0x40,
             drive_num: None,
             hidden_sectors: 0,
+            reserved_sectors: None,
             volume_id: 0x1234_5678,
             volume_label: None,
         }
@@ -1112,6 +1114,19 @@ impl FormatVolumeOptions {
     #[must_use]
     pub fn hidden_sectors(mut self, hidden_sectors: u32) -> Self {
         self.hidden_sectors = hidden_sectors;
+        self
+    }
+
+    /// Set the number of reserved sectors: the sectors before the first FAT, which hold the boot
+    /// sector and on FAT32 also the FS Information Sector, the backup boot sector (sector 6) and
+    /// boot code.
+    ///
+    /// Default is `8` for FAT32 and `1` for FAT12 and FAT16; FAT32 needs at least `7`. Microsoft's
+    /// own format uses `32` for FAT32, and Windows NT's FAT32 boot code keeps a second sector at
+    /// sector 12, so a FAT32 volume that Windows NT setup makes bootable needs `32`.
+    #[must_use]
+    pub fn reserved_sectors(mut self, reserved_sectors: u16) -> Self {
+        self.reserved_sectors = Some(reserved_sectors);
         self
     }
 
